@@ -45,10 +45,16 @@ func (c *Connector) GetDepositAddress(cur string) (*Address, error) {
 	var a Address
 	method := "/account/getdepositaddress?currency=" + cur
 	err := c.UseMethod(method, &a)
+	if err == nil && len(a.Address) == 0 {
+		return &a, errors.New("Address not received")
+	}
 	return &a, err
 }
 
 func (c *Connector) Withdraw(cur, addr, paymentId string, q float64) (*Uuid, error) {
+	/*
+		paymentId is an optional field and can be set to empty string.
+	*/
 	if len(cur) == 0 || len(addr) == 0 {
 		return nil, errors.New("Currency and address are requred fields")
 	}
@@ -72,7 +78,7 @@ func (c *Connector) GetOrder(uuid string) (*OrderGetter, error) {
 		return nil, errors.New("No order uuid provided")
 	}
 	var og OrderGetter
-	err := c.UseMethod("/account/getorder&uuid="+uuid, &og)
+	err := c.UseMethod("/account/getorder?uuid="+uuid, &og)
 	return &og, err
 }
 

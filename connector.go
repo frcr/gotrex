@@ -108,6 +108,7 @@ func (jc *jsonChecker) check() error {
 	if !jc.Success {
 		return errors.New(jc.Message)
 	}
+
 	return nil
 }
 

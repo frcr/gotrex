@@ -140,7 +140,7 @@ type OldOrder struct {
 	QuantityRemaining float64  `json:"QuantityRemaining"`
 	Commission        float64  `json:"Commission"`
 	Price             float64  `json:"Price"`
-	PricePerUnit      string   `json:"PricePerUnit"`
+	PricePerUnit      float64  `json:"PricePerUnit"`
 	IsConditional     bool     `json:"IsConditional"`
 	Condition         string   `json:"Condition"`
 	ConditionTarget   string   `json:"ConditionTarget"`
