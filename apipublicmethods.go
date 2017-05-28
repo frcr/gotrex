@@ -66,7 +66,7 @@ func (c *PublicConnector) GetMarketSummary(t string) (MarketSummary, error) {
 		return nil, errors.New("No market tag to get summary of")
 	}
 	var rezult MarketSummary
-	method := "/public/getgetmarketsummary?market=" + t
+	method := "/public/getmarketsummary?market=" + t
 	err := c.UseMethod(method, &rezult)
 	return rezult, err
 }
