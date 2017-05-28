@@ -5,13 +5,15 @@ Implementation of a wrapper for Bittrex API, written in Go.
 ### Installation
 
 To install the package use the usual go commands, given you have your `$GOPATH1` variable set
-	go get github.com/frcr/gotrex
-	
+~~~
+go get github.com/frcr/gotrex
+~~~
 Then just import it in your program and you're good to go:
-	import(
-		"github.com/frcr/gotrex"
-	)
-
+~~~go
+import(
+	"github.com/frcr/gotrex"
+)
+~~~
 ### Usage
 
 You can find the discription of API itself in the official [Bittrex site](https://bittrex.com/Home/Api).
@@ -37,8 +39,12 @@ Now you have two options:
 2. You can use the general `UseMethod()` method
 
 The first option allows you to use go methods like
-	sumry := publicOne.GetMarketSummary("BTC-DOGE")
+~~~go
+sumry := publicOne.GetMarketSummary("BTC-DOGE")
+~~~
 but with the second you have more freedom forming your own urls, though it *is* functionally equivalent:
-	var sumry MarketSummary 
-	err := publicOne.UseMethod("/public/getgetmarketsummary?market=BTC-DOGE", &sumry)
+~~~go
+var sumry MarketSummary 
+err := publicOne.UseMethod("/public/getgetmarketsummary?market=BTC-DOGE", &sumry)
+~~~
 Of course, you'll also have to check the correctness of your formed paths and arguments.
