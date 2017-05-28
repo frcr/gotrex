@@ -22,33 +22,33 @@ For objects' structure check the api/apiobjects.go file
 /account/getdeposithistory?currency=BTC
 */
 
-func (c *Connector) GetBalances() ([]Balance, error) {
+func (c *Connector) GetBalances() (*[]Balance, error) {
 	var b []Balance
 	err := c.UseMethod("/account/getbalances", &b)
-	return b, err
+	return &b, err
 }
 
-func (c *Connector) GetBalance(cur string) (Balance, error) {
+func (c *Connector) GetBalance(cur string) (*Balance, error) {
 	if len(cur) == 0 {
 		return nil, errors.New("Currency not specified")
 	}
 	var b Balance
 	method := "/account/getbalance?currency=" + cur
 	err := c.UseMethod(method, &b)
-	return b, err
+	return &b, err
 }
 
-func (c *Connector) GetDepositAddress(cur string) (Address, error) {
+func (c *Connector) GetDepositAddress(cur string) (*Address, error) {
 	if len(cur) == 0 {
 		return nil, errors.New("Currency not specified")
 	}
 	var a Address
 	method := "/account/getdepositaddress?currency=" + cur
 	err := c.UseMethod(method, &a)
-	return a, err
+	return &a, err
 }
 
-func (c *Connector) Withdraw(cur, addr, paymentId string, q float64) (Uuid, error) {
+func (c *Connector) Withdraw(cur, addr, paymentId string, q float64) (*Uuid, error) {
 	if len(cur) == 0 || len(addr) == 0 {
 		return nil, errors.New("Currency and address are requred fields")
 	}
@@ -64,44 +64,44 @@ func (c *Connector) Withdraw(cur, addr, paymentId string, q float64) (Uuid, erro
 	}
 	var u Uuid
 	err := c.UseMethod(method, &u)
-	return u, err
+	return &u, err
 }
 
-func (c *Connector) GetOrder(uuid string) (OrderGetter, error) {
+func (c *Connector) GetOrder(uuid string) (*OrderGetter, error) {
 	if len(uuid) == 0 {
 		return nil, errors.New("No order uuid provided")
 	}
 	var og OrderGetter
 	err := c.UseMethod("/account/getorder&uuid="+uuid, &og)
-	return og, err
+	return &og, err
 }
 
-func (c *Connector) GetOrderHistory(market string) ([]OldOrder, error) {
+func (c *Connector) GetOrderHistory(market string) (*[]OldOrder, error) {
 	method := "/account/getorderhistory"
 	if len(market) != 0 {
 		method += "?market=" + market
 	}
 	var oo []OldOrder
 	err := c.UseMethod(method, &oo)
-	return oo, err
+	return &oo, err
 }
 
-func (c *Connector) GetWithdrawalHistory(cur string) ([]Withdrawal, error) {
+func (c *Connector) GetWithdrawalHistory(cur string) (*[]Withdrawal, error) {
 	method := "/account/getwithdrawalhistory"
 	if len(cur) != 0 {
 		method += "?currency=" + cur
 	}
 	var wdr []Withdrawal
 	err := c.UseMethod(method, &wdr)
-	return wdr, err
+	return &wdr, err
 }
 
-func (c *Connector) GetDepositHistory(cur string) ([]Deposit, error) {
+func (c *Connector) GetDepositHistory(cur string) (*[]Deposit, error) {
 	method := "/account/getdeposithistory"
 	if len(cur) != 0 {
 		method += "?currency=" + cur
 	}
 	var dps []Deposit
 	err := c.UseMethod(method, &dps)
-	return dps, err
+	return &dps, err
 }

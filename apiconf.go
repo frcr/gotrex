@@ -1,6 +1,7 @@
 package gotrex
 
 import (
+	"encoding/json"
 	"time"
 )
 

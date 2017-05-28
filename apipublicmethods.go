@@ -25,19 +25,19 @@ For objects' structure check the api/apiobjects.go file
 
 */
 
-func (c *PublicConnector) GetMarkets() ([]Market, error) {
+func (c *PublicConnector) GetMarkets() (*[]Market, error) {
 	var marketList []Market
 	err := c.UseMethod("/public/getmarkets", &marketList)
-	return marketList, err
+	return &marketList, err
 }
 
-func (c *PublicConnector) GetCurrencies() ([]Currency, error) {
+func (c *PublicConnector) GetCurrencies() (*[]Currency, error) {
 	var curList []Currency
 	err := c.UseMethod("/public/getcurrencies", &curList)
-	return curList, err
+	return &curList, err
 }
 
-func (c *PublicConnector) GetTicker(t string) (Ticker, error) {
+func (c *PublicConnector) GetTicker(t string) (*Ticker, error) {
 	/*
 		t: required field, example:"BTC-LTC"
 		For full list of currency pairs, use GetMarketSummaries()
@@ -48,16 +48,16 @@ func (c *PublicConnector) GetTicker(t string) (Ticker, error) {
 	var rezult Ticker
 	method := "/public/getticker?market=" + t
 	err := c.UseMethod(method, &rezult)
-	return rezult, err
+	return &rezult, err
 }
 
-func (c *PublicConnector) GetMarketSummaries() ([]MarketSummary, error) {
+func (c *PublicConnector) GetMarketSummaries() (*[]MarketSummary, error) {
 	var ms []MarketSummary
 	err := c.UseMethod("/public/getmarketsummaries", &ms)
-	return ms, err
+	return &ms, err
 }
 
-func (c *PublicConnector) GetMarketSummary(t string) (MarketSummary, error) {
+func (c *PublicConnector) GetMarketSummary(t string) (*MarketSummary, error) {
 	/*
 		t: required field, example:"BTC-LTC"
 		For full list of currency pairs, use GetMarketSummaries()
@@ -68,10 +68,10 @@ func (c *PublicConnector) GetMarketSummary(t string) (MarketSummary, error) {
 	var rezult MarketSummary
 	method := "/public/getmarketsummary?market=" + t
 	err := c.UseMethod(method, &rezult)
-	return rezult, err
+	return &rezult, err
 }
 
-func (c *PublicConnector) GetOrderBook(market, orderTypes string, depth int) (OrderBook, error) {
+func (c *PublicConnector) GetOrderBook(market, orderTypes string, depth int) (*OrderBook, error) {
 	/*
 		market: required field, example:"BTC-LTC"
 		For full list of currency pairs, use GetMarketSummaries()
@@ -91,14 +91,14 @@ func (c *PublicConnector) GetOrderBook(market, orderTypes string, depth int) (Or
 	}
 	var rezult OrderBook
 	err := c.UseMethod(method, &rezult)
-	return rezult, err
+	return &rezult, err
 }
 
-func (c *PublicConnector) GetMarketHistory(tag string) ([]Trade, error) {
+func (c *PublicConnector) GetMarketHistory(tag string) (*[]Trade, error) {
 	if len(tag) == 0 {
 		return nil, errors.New("No market to get history of")
 	}
 	var tr []Trade
 	err := c.UseMethod("/public/getmarkethistory?market="+tag, &tr)
-	return tr, err
+	return &tr, err
 }

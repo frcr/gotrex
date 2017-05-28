@@ -19,12 +19,12 @@ func NewConnector(k, s string) (*Connector, error) {
 	return *Connector{*NewPublicConnector(), ApiKey: k, ApiSec: s}, nil
 }
 
-func (c *PublicConnector) UseMethod(method string, v *interface{}) error {
+func (c *PublicConnector) UseMethod(method string, v interface{}) error {
 	req := c.makeRequest(method)
 	return c.decodePayload(req, v)
 }
 
-func (c *Connector) UseMethod(method string, v *interface{}) error {
+func (c *Connector) UseMethod(method string, v interface{}) error {
 	req := c.makeRequest(method)
 	req = c.encrypt(req)
 	return c.decodePayload(req, v)

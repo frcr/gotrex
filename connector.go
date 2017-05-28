@@ -1,11 +1,15 @@
 package gotrex
 
 import (
+	"crypto/hmac"
+	"crypto/sha512"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 type PublicConnector struct {
@@ -33,7 +37,7 @@ func (c *PublicConnector) makeRequest(method string) (*http.Request, error) {
 		c.Endpoint + "/" +
 		c.ApiVer + "/" +
 		method
-	req, err := http.NewRequest("GET", generatedUrl)
+	req, err := http.NewRequest("GET", generatedUrl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -71,13 +75,13 @@ func (c *PublicConnector) launch(req *http.Request) (*http.Response, error) {
 	// Wait for the read or the timeout
 	select {
 	case r := <-done:
-		return r.r, r.e
-	case <-timer.C:
+		return *http.Response(r.r), error(r.e)
+	case <-timout.C:
 		return nil, errors.New("timeout on reading data from Bittrex API")
 	}
 }
 
-func (c *PublicConnector) decodePayload(req *http.Request, v *interface{}) error {
+func (c *PublicConnector) decodePayload(req *http.Request, v interface{}) error {
 	response, err := c.launch(req)
 	if err != nil {
 		return nil, err
@@ -105,20 +109,20 @@ func (jc *jsonChecker) check() error {
 	return nil
 }
 
-func (c *Connector) limitOrder(otype string, market string, q, r float64) (Uuid, error){
-	if q == 0.0 or r == 0.0 {
+func (c *Connector) limitOrder(otype string, market string, q, r float64) (*Uuid, error) {
+	if q == 0.0 || r == 0.0 {
 		return nil, errors.New("Quantity and rate should be non-zero")
 	}
 	if len(market) == 0 {
 		return nil, errors.New("Market tag is required")
 	}
 	var rezult Uuid
-	method := "/market/"+otype+"limit?market=" +
-		market+
+	method := "/market/" + otype + "limit?market=" +
+		market +
 		"&quantity=" +
 		strconv.FormatFloat(q, 'f', 8, 64) +
 		"&rate=" +
 		strconv.FormatFloat(r, 'f', 8, 64)
 	err := c.UseMethod(method, &rezult)
-	return rezult, err
+	return &rezult, err
 }

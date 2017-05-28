@@ -2,7 +2,6 @@ package gotrex
 
 import (
 	"errors"
-	"strconv"
 )
 
 /*
@@ -20,12 +19,12 @@ For objects' structure check the api/apiobjects.go file
 
 */
 
-func (c *Connector) BuyLimit(market string, q, r float64) (Uuid, error) {
-	return limitOrder("buy", market, q, r)
+func (c *Connector) BuyLimit(market string, q, r float64) (*Uuid, error) {
+	return c.limitOrder("buy", market, q, r)
 }
 
-func (c *Connector) SellLimit(market string, q, r float64) (Uuid, error) {
-	return limitOrder("sell", market, q, r)
+func (c *Connector) SellLimit(market string, q, r float64) (*Uuid, error) {
+	return c.limitOrder("sell", market, q, r)
 }
 
 func (c *Connector) Cancel(uuid string) error {
@@ -38,12 +37,12 @@ func (c *Connector) Cancel(uuid string) error {
 	return err
 }
 
-func (c *Connector) GetOpenOrders(market string) ([]Order, error) {
+func (c *Connector) GetOpenOrders(market string) (*[]Order, error) {
 	method := "/market/getopenorders"
 	if len(market) != 0 {
 		method += "?market=" + market
 	}
 	var rez []Order
 	err := c.UseMethod(method, &rez)
-	return rez, err
+	return &rez, err
 }
