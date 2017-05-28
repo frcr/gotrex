@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -54,7 +55,7 @@ func (c *Connector) encrypt(req *http.Request) *http.Request {
 	q.Set("nonce", fmt.Sprintf("%d", nonce))
 	req.URL.RawQuery = q.Encode()
 	algo := hmac.New(sha512.New, []byte(c.ApiSec))
-	_, err := algo.Write([]byte(req.URL.String()))
+	algo.Write([]byte(req.URL.String()))
 	signature := hex.EncodeToString(algo.Sum(nil))
 	req.Header.Add("apisign", signature)
 	return req
@@ -62,11 +63,12 @@ func (c *Connector) encrypt(req *http.Request) *http.Request {
 
 func (c *PublicConnector) launch(req *http.Request) (*http.Response, error) {
 	timeout := time.NewTimer(TIMEOUT * time.Second)
-	done := make(chan interface{}, 1)
+
 	type pack struct {
 		r *http.Response
 		e error
 	}
+	done := make(chan pack, 1)
 	go func() {
 		response, err := c.Do(req)
 		tmp := pack{response, err}
@@ -74,9 +76,9 @@ func (c *PublicConnector) launch(req *http.Request) (*http.Response, error) {
 	}()
 	// Wait for the read or the timeout
 	select {
-	case r := <-done:
-		return *http.Response(r.r), error(r.e)
-	case <-timout.C:
+	case ret := <-done:
+		return ret.r, ret.e
+	case <-timeout.C:
 		return nil, errors.New("timeout on reading data from Bittrex API")
 	}
 }
@@ -84,12 +86,12 @@ func (c *PublicConnector) launch(req *http.Request) (*http.Response, error) {
 func (c *PublicConnector) decodePayload(req *http.Request, v interface{}) error {
 	response, err := c.launch(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer response.Body.Close()
 	bytestring, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	var jc jsonChecker
 	if err = json.Unmarshal(bytestring, jc); err != nil {
