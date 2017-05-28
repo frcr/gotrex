@@ -1,4 +1,4 @@
-package api
+package gotrex
 
 import (
 	"errors"
