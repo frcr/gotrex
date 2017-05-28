@@ -16,7 +16,7 @@ import(
 ~~~
 ### Usage
 
-You can find the discription of API itself in the official [Bittrex site](https://bittrex.com/Home/Api).
+You can find the discription of API itself on the official [Bittrex site](https://bittrex.com/Home/Api).
 
 The usage of the package revolves around two main `struct`s: `Connector` and `PublicConnector`
 
@@ -33,9 +33,9 @@ You can check out the implementation of these functions in `main.go`. The implem
 
 Now you have two options:
 1. You can call the methods described in
-*	apipublicmethods.go
-*	apimarketmethods.go
-*	apiaccountmethods.go
+*	`apipublicmethods.go`
+*	`apimarketmethods.go`
+*	`apiaccountmethods.go`
 2. You can use the general `UseMethod()` method
 
 The first option allows you to use go methods like
