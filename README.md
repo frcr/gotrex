@@ -44,7 +44,7 @@ sumry, _ := publicOne.GetMarketSummary("BTC-DOGE")
 ~~~
 but with the second you have more freedom forming your own urls, though it *is* functionally equivalent:
 ~~~go
-var sumry MarketSummary 
+var sumry []MarketSummary 
 err := publicOne.UseMethod("/public/getmarketsummary?market=BTC-DOGE", &sumry)
 ~~~
 Of course, you'll also have to check the correctness of your formed paths and arguments, as `UseMethod` assumes the provided method and arguments are correct. But it handles authorisation, so you don't have to add `"&apikey="`, `"&nonce="` or do any encryption and signing if you use it with `Connector`:
