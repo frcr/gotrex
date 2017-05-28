@@ -36,7 +36,7 @@ func (c *PublicConnector) makeRequest(method string) (*http.Request, error) {
 	var generatedUrl = "" +
 		c.Protocol + "://" +
 		c.Endpoint + "/" +
-		c.ApiVer + "/" +
+		c.ApiVer +
 		method
 	req, err := http.NewRequest("GET", generatedUrl, nil)
 	if err != nil {
@@ -94,7 +94,7 @@ func (c *PublicConnector) decodePayload(req *http.Request, v interface{}) error 
 		return err
 	}
 	var jc jsonChecker
-	if err = json.Unmarshal(bytestring, jc); err != nil {
+	if err = json.Unmarshal(bytestring, &jc); err != nil {
 		return err
 	}
 	if err = jc.check(); err != nil {

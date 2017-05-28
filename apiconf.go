@@ -8,8 +8,8 @@ import (
 const PROTOCOL = "https"
 const ENDPOINT = "bittrex.com/api"
 const APIVER = "v1.1"
-const TIMEOUT = 10
-const TIMEPARSE = "2006-01-02T15:04:05.000"
+const TIMEOUT = 30
+const TIMEPARSE = "2006-01-02T15:04:05"
 
 type jsonTime struct {
 	time.Time
