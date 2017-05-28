@@ -65,10 +65,10 @@ func (c *PublicConnector) GetMarketSummary(t string) (*MarketSummary, error) {
 	if len(t) == 0 {
 		return nil, errors.New("No market tag to get summary of")
 	}
-	var rezult MarketSummary
+	var rezult []MarketSummary
 	method := "/public/getmarketsummary?market=" + t
 	err := c.UseMethod(method, &rezult)
-	return &rezult, err
+	return &(rezult[0]), err
 }
 
 func (c *PublicConnector) GetOrderBook(market, orderTypes string, depth int) (*OrderBook, error) {

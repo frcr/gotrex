@@ -55,7 +55,7 @@ type OrderBookEntry struct {
 }
 
 type Trade struct {
-	Id        string   `json:"Id"`
+	Id        int      `json:"Id"`
 	Timestamp jsonTime `json:"TimeStamp"`
 	Quantity  float64  `json:"Quantity"`
 	Price     float64  `json:"Price"`
@@ -69,23 +69,23 @@ type Uuid struct {
 }
 
 type Order struct {
-	Uuid              string       `json:"Uuid"`
-	OrderUuid         string       `json:"OrderUuid"`
-	Exchange          string       `json:"Exchange"`
-	OrderType         string       `json:"OrderType"`
-	Quantity          float64      `json:"Quantity"`
-	QuantityRemaining float64      `json:"QuantityRemaining"`
-	Limit             float64      `json:"Limit"`
-	CommissionPaid    float64      `json:"CommissionPaid"`
-	Price             float64      `json:"Price"`
-	PricePerUnit      *interface{} `json:"PricePerUnit"`
-	Opened            jsonTime     `json:"Opened"`
-	Closed            jsonTime     `json:"Closed"`
-	CancelInitiated   bool         `json:"CancelInitiated"`
-	ImmediateOrCancel bool         `json:"ImmediateOrCancel"`
-	IsConditional     bool         `json:"IsConditional"`
-	Condition         *interface{} `json:"Condition"`
-	ConditionTarget   *interface{} `json:"ConditionTarget"`
+	Uuid              string   `json:"Uuid"`
+	OrderUuid         string   `json:"OrderUuid"`
+	Exchange          string   `json:"Exchange"`
+	OrderType         string   `json:"OrderType"`
+	Quantity          float64  `json:"Quantity"`
+	QuantityRemaining float64  `json:"QuantityRemaining"`
+	Limit             float64  `json:"Limit"`
+	CommissionPaid    float64  `json:"CommissionPaid"`
+	Price             float64  `json:"Price"`
+	PricePerUnit      string   `json:"PricePerUnit"`
+	Opened            jsonTime `json:"Opened"`
+	Closed            jsonTime `json:"Closed"`
+	CancelInitiated   bool     `json:"CancelInitiated"`
+	ImmediateOrCancel bool     `json:"ImmediateOrCancel"`
+	IsConditional     bool     `json:"IsConditional"`
+	Condition         string   `json:"Condition"`
+	ConditionTarget   string   `json:"ConditionTarget"`
 }
 
 type Balance struct {
