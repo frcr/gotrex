@@ -20,7 +20,7 @@ You can find the discription of API itself on the official [Bittrex site](https:
 
 The usage of the package revolves around two main `struct`s: `Connector` and `PublicConnector`
 
-The `PublicConnector` is able to only handle the public methods, as it contains neither methods, nor API key to access the data that requires authorisation.
+The `PublicConnector` is able to only handle the public methods, as it contains neither methods, nor API key to access the data that requires authorization.
 
 The `Connector` struct can handle any methods of the API.
 
@@ -47,7 +47,7 @@ but with the second you have more freedom forming your own urls, though it *is* 
 var sumry []MarketSummary 
 err := publicOne.UseMethod("/public/getmarketsummary?market=BTC-DOGE", &sumry)
 ~~~
-Of course, you'll also have to check the correctness of your formed paths and arguments, as `UseMethod` assumes the provided method and arguments are correct. But it handles authorisation, so you don't have to add `"&apikey="`, `"&nonce="` or do any encryption and signing if you use it with `Connector`:
+Of course, you'll also have to check the correctness of your formed paths and arguments, as `UseMethod` assumes the provided method and arguments are correct. But it handles authorization, so you don't have to add `"&apikey="`, `"&nonce="` or do any encryption and signing if you use it with `Connector`:
 ~~~go
 c, err := gotrex.NewConnector(key, secret)
 method := "/market/cancel?uuid=" + uuid
